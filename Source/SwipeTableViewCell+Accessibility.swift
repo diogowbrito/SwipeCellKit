@@ -47,7 +47,7 @@ extension SwipeTableViewCell {
             let leftActions = delegate?.tableView(tableView, editActionsForRowAt: indexPath, for: .left) ?? []
             let rightActions = delegate?.tableView(tableView, editActionsForRowAt: indexPath, for: .right) ?? []
             
-            let actions = [rightActions.first, leftActions.first].flatMap({ $0 }) + rightActions.dropFirst() + leftActions.dropFirst()
+            let actions = [rightActions.first, leftActions.first].compactMap({ $0 }) + rightActions.dropFirst() + leftActions.dropFirst()
             
             if actions.count > 0 {
                 return actions.map({ SwipeAccessibilityCustomAction(action: $0,
@@ -64,7 +64,7 @@ extension SwipeTableViewCell {
         }
     }
     
-    func performAccessibilityCustomAction(accessibilityCustomAction: SwipeAccessibilityCustomAction) -> Bool {
+    @objc func performAccessibilityCustomAction(accessibilityCustomAction: SwipeAccessibilityCustomAction) -> Bool {
         guard let tableView = tableView else { return false }
         
         let swipeAction = accessibilityCustomAction.action
